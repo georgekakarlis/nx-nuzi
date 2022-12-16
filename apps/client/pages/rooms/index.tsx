@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 
@@ -26,14 +27,23 @@ const Rooms: NextPage<RoomsProps> = ({ rooms }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch('http://localhost:3333/api/rooms');
-  const rooms = await response.json();
+  try {
+    const response = await axios.get<Room[]>('http://localhost:3333/api/rooms');
+    const rooms = response.json();
 
-  return {
-    props: {
-      rooms,
-    },
-  };
+    return {
+      props: {
+        rooms,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        rooms: [],
+      },
+    };
+  }
 };
 
 export default Rooms;

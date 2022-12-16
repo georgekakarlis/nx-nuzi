@@ -18,9 +18,11 @@ function Room(props: RoomProps) {
     const fetchRoom = async () => {
       try {
         const response = await axios.get(`http://localhost:3333/api/rooms/${id}`);
-        setRoom(response.data);
+        setRoom(response.data); 
+        console.log(response.data);
       } catch (error) {
         // handle the error
+        console.error(error);
       }
     };
 

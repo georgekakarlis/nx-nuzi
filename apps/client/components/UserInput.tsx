@@ -14,19 +14,49 @@ const CreateRoomForm: React.FC = () => {
 // resolves with the response from the server if the request is successful, 
 //or rejects with an error if the request fails. By using the await keyword, you can wait for the promise to resolve or reject before executing the next line of code.
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const roomName = formData.get('roomName') as string;
-    const roomId = generateUuid();
-  
-    try {
-      const response = await axios.post('http://localhost:3333/api/rooms', { roomName, roomId });
-      router.push(`/rooms/${roomId}`);
-    } catch (error) {
-      // handle the error
-    }
+
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  const formData = new FormData(event.currentTarget);
+  const roomName = formData.get('roomName') as string;
+  const roomId = generateUuid(); // Assume this function generates a unique ID using the uuidv4 library
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept' : 'application/json, text/plain, */*'
   };
+
+  try {
+    let response;
+    if (roomName) {
+      // Use the roomName in the request body if it was provided
+      response = await axios.post('http://localhost:3333/api/rooms', { roomName }, { headers });
+    } else{
+      // Use the roomId in the request body if roomName was not provided
+      response = await axios.post('http://localhost:3333/api/rooms', { roomId }, { headers });
+    }
+
+    // Navigate to the new room page if the request was successful
+    router.push(`/rooms/${response.data.roomId}`);
+  } catch (error) {
+    // Handle the error
+    if (error.response) {
+      // The request was made and the server responded with a status code that is not in the 2xx range
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message);
+    }
+    console.log(error.config);
+  }
+};
+
+
 
   return (
     <form onSubmit={handleSubmit}>

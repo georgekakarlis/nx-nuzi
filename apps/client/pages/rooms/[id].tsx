@@ -7,7 +7,7 @@ interface RoomPageProps {
   id: string;
 }
 
-const RoomPage: NextPage<RoomPageProps> = ({ id }) => {
+const RoomPage: NextPage<RoomPageProps> = ({ id, roomName }) => {
   const roomId = useRoomId();
 
   return <Room roomId={roomId} />;
