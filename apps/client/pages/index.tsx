@@ -1,22 +1,19 @@
 import React from 'react';
-import UserInput from '../components/UserInput';
-
+import Footer from '../components/UI/Footer';
+import Navbar from '../components/UI/Navbar'
+import Audio from '../components/Audio'
 
 
 
 export function Index() {
 
 
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
   return (
-    <div>
-      <h1 className='bg-blue-500 text-bold'>tailwind?</h1>
-      <UserInput/>
+    <div className="animated-background">
+      <Navbar />
 
+      <Audio />
+      <Footer />
     </div>
   );
 }

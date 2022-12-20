@@ -10,3 +10,21 @@ html {
 @tailwind components;
 @tailwind base;
 @tailwind utilities;
+
+.animated-background {
+  background: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
+  background-size: 200% 200%;
+  animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
